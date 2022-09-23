@@ -1,0 +1,3 @@
+main:
+  with-license-check: true
+  with-zef-deps: true 
