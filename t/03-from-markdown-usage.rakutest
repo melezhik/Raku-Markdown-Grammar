@@ -1,0 +1,171 @@
+use v6.d;
+use Test;
+
+use lib '.';
+use lib './lib';
+
+use Markdown::Grammar;
+
+#===========================================================
+
+plan 9;
+
+#-----------------------------------------------------------
+## 1
+#-----------------------------------------------------------
+ok from-markdown('Here is data wrangling code:
+
+    obj = dfTitanic;
+    obj = GroupBy[ obj, #["passengerSex"]& ];
+               Echo[Map[ Length, obj], "counts:"]
+
+## References', to=>'Mathematica');
+
+#-----------------------------------------------------------
+## 2
+#-----------------------------------------------------------
+is from-markdown('## Section', to=>'Mathematica'),
+        'Notebook[{Cell[TextData[{"Section"}], "Section"]}]',
+        'Simple one line Mathematica';
+
+
+#-----------------------------------------------------------
+## 3
+#-----------------------------------------------------------
+my $res3 = q:to/END/;
+=begin pod
+=begin head2
+Section
+=end head2
+=end pod
+END
+
+is from-markdown('## Section', to=>'pod6'),
+        $res3.trim,
+        'Simple one line Pod6';
+
+#-----------------------------------------------------------
+## 4
+#-----------------------------------------------------------
+my Str $code = q:to/INIT/;
+Here is a variable:
+```raku
+my $answer = 42;
+```
+```
+# OUTPUT := 42
+```
+Here is its value squared:
+```raku
+$answer ** 2
+```
+```
+# OUTPUT := 1764
+```
+
+Here are cubed and cubed of the squared:
+```{raku}
+$answer ** 3
+$answer ** 2 ** 3
+```
+```
+# FAILURE := Two terms in a row across lines (missing semicolon or comma?)
+# OUTPUT := Nil
+```
+INIT
+
+
+my $doc-file = $*TMPDIR.child("temp_doc.md");
+$doc-file.spurt($code);
+
+ok from-markdown($doc-file, to=>'pod6'),
+        'Over file path object';
+
+#-----------------------------------------------------------
+## 5
+#-----------------------------------------------------------
+ok from-markdown($doc-file.Str, to=>'pod6'),
+        'Over file path string';
+
+#-----------------------------------------------------------
+## 6
+#-----------------------------------------------------------
+
+# README example
+my $res6 = q:to/END/;
+=begin pod
+=para
+Here is data wrangling code:
+=begin code
+obj = dfTitanic;
+obj = GroupBy[ obj, #["passengerSex"]& ];
+Echo[Map[ Length, obj], "counts:"]
+=end code
+=begin head2
+References
+=end head2
+=end pod
+END
+
+is from-markdown( 'Here is data wrangling code:
+
+    obj = dfTitanic;
+    obj = GroupBy[ obj, #["passengerSex"]& ];
+    Echo[Map[ Length, obj], "counts:"]
+
+## References', to=>'pod6'),
+        $res6.trim,
+        'README CLI example';
+
+#-----------------------------------------------------------
+## 7
+#-----------------------------------------------------------
+
+my $mtext7 = q:to/END/;
+Here is a Python cell:
+
+```python
+1 + 1_000
+```
+
+Here is an "unspecified language" code cell:
+
+```
+say 404;
+```
+END
+
+my $res7 = q:to/END/;
+Notebook[{Cell[TextData[{"Here", " ", "is", " ", "a", " ", "Python", " ", "cell:"}], "Text"], Cell["1 + 1_000", "ExternalLanguage", CellEvaluationLanguage->"Python"], Cell[TextData[{"Here", " ", "is", " ", "an", " ", "\"unspecified", " ", "language\"", " ", "code", " ", "cell:"}], "Text"], Cell["say 404;", "ExternalLanguage", CellEvaluationLanguage->"Raku"]}]
+END
+
+is from-markdown($mtext7, to=>'wl', default-language => 'Raku', raku-code-cell-name => Whatever, :!docked-cells).trim,
+        $res7.trim,
+        'Code cells with default language Raku';
+
+#-----------------------------------------------------------
+## 8
+#-----------------------------------------------------------
+
+my $res8 = q:to/END/;
+Notebook[{Cell[TextData[{"Here", " ", "is", " ", "a", " ", "Python", " ", "cell:"}], "Text"], Cell["1 + 1_000", "ExternalLanguage", CellEvaluationLanguage->"Python"], Cell[TextData[{"Here", " ", "is", " ", "an", " ", "\"unspecified", " ", "language\"", " ", "code", " ", "cell:"}], "Text"], Cell["say 404;", "RakuInputExecute", FormatType->"TextForm"]}]
+END
+
+is from-markdown($mtext7, to=>'wl', default-language => 'Raku', raku-code-cell-name => 'RakuInputExecute', :!docked-cells).trim,
+        $res8.trim,
+        'Code cells with default language Raku and special Raku code cell';
+
+
+#-----------------------------------------------------------
+## 9
+#-----------------------------------------------------------
+
+my $res9 = q:to/END/;
+Notebook[{Cell[TextData[{"Here", " ", "is", " ", "a", " ", "Python", " ", "cell:"}], "Text"], Cell["1 + 1_000", "ExternalLanguage", CellEvaluationLanguage->"Python"], Cell[TextData[{"Here", " ", "is", " ", "an", " ", "\"unspecified", " ", "language\"", " ", "code", " ", "cell:"}], "Text"], Cell[ BoxData["say 404;"], "Input"]}]
+END
+
+is from-markdown($mtext7, to=>'wl', default-language => Whatever, raku-code-cell-name => Whatever, :!docked-cells).trim,
+        $res9.trim,
+        'Code cells with Whatever default language and Whatever Raku code cell';
+
+done-testing;

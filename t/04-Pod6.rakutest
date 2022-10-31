@@ -1,0 +1,55 @@
+use v6.d;
+use Test;
+
+use lib '.';
+use lib './lib';
+
+use Markdown::Grammar;
+
+#===========================================================
+
+plan 2;
+
+#-----------------------------------------------------------
+## 1
+#-----------------------------------------------------------
+# See: https://github.com/antononcube/Raku-Markdown-Grammar/issues/1
+my $mtext1 = q:to/END/;
+line1
+END
+
+my $res1 = q:to/END/;
+=begin pod
+=para
+line1
+=end pod
+END
+
+is from-markdown($mtext1, to => 'pod6'),
+        $res1.trim-trailing,
+        'Simple';
+
+#-----------------------------------------------------------
+## 2
+#-----------------------------------------------------------
+# See: https://github.com/antononcube/Raku-Markdown-Grammar/issues/2
+my $mtext2 = q:to/END/;
+```raku
+my $obj = [12,]
+```
+END
+
+my $res2 = q:to/END/;
+=begin pod
+=begin code :lang<raku>
+my $obj = [12,]
+=end code
+
+=end pod
+END
+
+is from-markdown($mtext2, to => 'pod6'),
+        $res2.trim-trailing,
+        'Raku code block';
+
+done-testing;

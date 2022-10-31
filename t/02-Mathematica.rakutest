@@ -5,11 +5,10 @@ use lib '.';
 use lib './lib';
 
 use Markdown::Grammar;
-use Markdown::Actions::Mathematica;
 
 #===========================================================
 
-plan 12;
+plan 18;
 
 #-----------------------------------------------------------
 ## 1
@@ -36,8 +35,7 @@ END
 is md-interpret($mtext2),
         'Notebook[{Cell["my $obj = @dfTitanic ;
 say \"Titanic dimensions:\", dimensions(@dfTitanic);
-say to-pretty-table($obj.pick(7));
-", "ExternalLanguage", CellEvaluationLanguage->"Perl6"]}]',
+say to-pretty-table($obj.pick(7));", "ExternalLanguage", CellEvaluationLanguage->"Perl6"]}]',
         'Perl6 cell';
 
 #-----------------------------------------------------------
@@ -62,8 +60,7 @@ x + y == Sqrt[Integrate[f[x], {x,0,30}]]
 END
 
 is md-interpret($mtext3),
-        'Notebook[{Cell[ BoxData["x + y == Sqrt[Integrate[f[x], {x,0,30}]]
-"], "Input"], Cell[TextData["\[HorizontalLine]"], "Text"], Cell[TextData[{"References"}], "Section"], Cell[TextData[{"Articles"}], "Subsection"], Cell[TextData[{"[AA1]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Introduction to data wrangling with Raku\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2021/12/31/introduction-to-data-wrangling-with-raku/"], None}], " ", ",", " ", "(2021),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"]}]',
+        'Notebook[{Cell[ BoxData["x + y == Sqrt[Integrate[f[x], {x,0,30}]]"], "Input"], Cell["\t", ShowCellBracket -> Automatic, TabFilling -> "\[LongDash]\[NegativeThickSpace]", TabSpacings -> Scaled[1], FontColor -> GrayLevel[.4]], Cell[TextData[{"References"}], "Section"], Cell[TextData[{"Articles"}], "Subsection"], Cell[TextData[{"[AA1]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Introduction to data wrangling with Raku\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2021/12/31/introduction-to-data-wrangling-with-raku/"], None}], " ", ",", " ", "(2021),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"]}]',
         'WL cell and link';
 
 #-----------------------------------------------------------
@@ -115,8 +112,7 @@ No more formulas...
 END
 
 is md-interpret($mtext4),
-        'Notebook[{Cell[TextData[{"Here", " ", "is", " ", "a", " ", "formula:"}], "Text"], Cell[ BoxData["x + y == Sqrt[Integrate[f[x], {x,0,30}]]
-"], "Input"], Cell[TextData[{"Hopefully", " ", "you", " ", "got", " ", "it."}], "Text"], Cell[TextData[{"No", " ", "more", " ", "formulas..."}], "Text"], Cell[TextData["\[HorizontalLine]"], "Text"], Cell[TextData[{"References"}], "Section"], Cell[TextData[{"Articles"}], "Subsection"], Cell[TextData[{"[AA1]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Introduction to data wrangling with Raku\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2021/12/31/introduction-to-data-wrangling-with-raku/"], None}], " ", ",", " ", "(2021),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"], Cell[TextData[{"[AA2]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Увод в обработката на данни с Raku\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2022/05/24/увод-в-обработката-на-данни-с-raku/"], None}], " ", ",", " ", "(2022),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"], Cell[TextData[{"[AA3]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Raku Text::CodeProcessing\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2021/07/13/raku-textcodeprocessing/"], None}], " ", ",", " ", "(2021),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"], Cell[TextData[{"[HW1]", " ", "Hadley", " ", "Wickham,", " ", ButtonBox["\"The Split-Apply-Combine Strategy for Data Analysis\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://www.jstatsoft.org/article/view/v040i01"], None}], " ", ",", " ", "(2011),", " ", ButtonBox["Journal of Statistical Software", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://www.jstatsoft.org/"], None}], " ", "."}], "Text"]}]',
+        'Notebook[{Cell[TextData[{"Here", " ", "is", " ", "a", " ", "formula:"}], "Text"], Cell[ BoxData["x + y == Sqrt[Integrate[f[x], {x,0,30}]]"], "Input"], Cell[TextData[{"Hopefully", " ", "you", " ", "got", " ", "it."}], "Text"], Cell[TextData[{"No", " ", "more", " ", "formulas..."}], "Text"], Cell["\t", ShowCellBracket -> Automatic, TabFilling -> "\[LongDash]\[NegativeThickSpace]", TabSpacings -> Scaled[1], FontColor -> GrayLevel[.4]], Cell[TextData[{"References"}], "Section"], Cell[TextData[{"Articles"}], "Subsection"], Cell[TextData[{"[AA1]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Introduction to data wrangling with Raku\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2021/12/31/introduction-to-data-wrangling-with-raku/"], None}], " ", ",", " ", "(2021),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"], Cell[TextData[{"[AA2]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Увод в обработката на данни с Raku\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2022/05/24/увод-в-обработката-на-данни-с-raku/"], None}], " ", ",", " ", "(2022),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"], Cell[TextData[{"[AA3]", " ", "Anton", " ", "Antonov,", " ", ButtonBox["\"Raku Text::CodeProcessing\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com/2021/07/13/raku-textcodeprocessing/"], None}], " ", ",", " ", "(2021),", " ", ButtonBox["RakuForPrediction at WordPress", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://rakuforprediction.wordpress.com"], None}], " ", "."}], "Text"], Cell[TextData[{"[HW1]", " ", "Hadley", " ", "Wickham,", " ", ButtonBox["\"The Split-Apply-Combine Strategy for Data Analysis\"", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://www.jstatsoft.org/article/view/v040i01"], None}], " ", ",", " ", "(2011),", " ", ButtonBox["Journal of Statistical Software", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://www.jstatsoft.org/"], None}], " ", "."}], "Text"]}]',
         'Formula and links';
 
 #-----------------------------------------------------------
@@ -146,10 +142,8 @@ END
 is md-interpret($mtext5),
         'Notebook[{Cell[TextData[{"Execution", " ", "steps"}], "Subsection"], Cell[TextData[{"Copy", " ", "the", " ", "Titanic", " ", "data", " ", "into", " ", "a", " ", "\"pipeline", " ", "object\"", " ", "and", " ", "show", " ", "its", " ", "dimensions", " ", "and", " ", "a", " ", "sample", " ", "of", " ", "it:"}], "Text"], Cell["my $obj = @dfTitanic ;
 say \"Titanic dimensions:\", dimensions(@dfTitanic);
-say to-pretty-table($obj.pick(7));
-", "ExternalLanguage", CellEvaluationLanguage->"Perl6"], Cell[TextData[{"Filter", " ", "the", " ", "data", " ", "and", " ", "show", " ", "the", " ", "number", " ", "of", " ", "rows", " ", "in", " ", "the", " ", "result", " ", "set:"}], "Text"], Cell["$obj = $obj.grep({ $_{\"passengerSex\"} eq \"male\" and $_{\"passengerSurvival\"} eq \"died\" or $_{\"passengerSurvival\"} eq \"survived\" }).Array ;
-say $obj.elems;
-", "ExternalLanguage", CellEvaluationLanguage->"Perl6"], Cell[TextData[{"Cross", " ", "tabulate", " ", "and", " ", "show", " ", "the", " ", "result:"}], "Text"]}]',
+say to-pretty-table($obj.pick(7));", "ExternalLanguage", CellEvaluationLanguage->"Perl6"], Cell[TextData[{"Filter", " ", "the", " ", "data", " ", "and", " ", "show", " ", "the", " ", "number", " ", "of", " ", "rows", " ", "in", " ", "the", " ", "result", " ", "set:"}], "Text"], Cell["$obj = $obj.grep({ $_{\"passengerSex\"} eq \"male\" and $_{\"passengerSurvival\"} eq \"died\" or $_{\"passengerSurvival\"} eq \"survived\" }).Array ;
+say $obj.elems;", "ExternalLanguage", CellEvaluationLanguage->"Perl6"], Cell[TextData[{"Cross", " ", "tabulate", " ", "and", " ", "show", " ", "the", " ", "result:"}], "Text"]}]',
         'Code cells';
 
 
@@ -245,18 +239,21 @@ is md-interpret($mtext10).subst(/ \s /, ''):g,
 #-----------------------------------------------------------
 ## 11
 #-----------------------------------------------------------
+
+# Note that lines with reference links might have some some leading spaces.
+# (As in StackExchange Markdown.)
 my $mtext11 = q:to/END/;
 [enter image description here][1]
 
 [![enter image description here][2]][2]
 
 [1]: https://i.stack.imgur.com/cUxHw.png
-[2]: https://i.stack.imgur.com/XWrJB.png
+  [2]: https://i.stack.imgur.com/XWrJB.png
 END
 
 is md-interpret($mtext11),
-    'Notebook[{Cell[TextData[{ButtonBox["enter image description here", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://i.stack.imgur.com/cUxHw.png"], None}]}], "Text"], Cell[ BoxData["Import[URL[\"https://i.stack.imgur.com/XWrJB.png\"]]"], "Input"]}]',
-    'Links with references';
+        'Notebook[{Cell[TextData[{ButtonBox["enter image description here", BaseStyle -> "Hyperlink", ButtonData -> { URL["https://i.stack.imgur.com/cUxHw.png"], None}]}], "Text"], Cell[ BoxData["Import[URL[\"https://i.stack.imgur.com/XWrJB.png\"]]"], "Input"]}]',
+        'Links with references';
 
 #-----------------------------------------------------------
 ## 12
@@ -273,5 +270,152 @@ is md-interpret($mtext12),
         'Notebook[{Cell[TextData[{"They", " ", "said:"}], "Text"], Cell[TextData[{"Select", " ", "QR", " ", "parameters", " ", "to", " ", "extract", " ", "the", " ", "\"near", " ", "constant", " ", "y\"", " ", "points."}], "ItemParagraph", Background->GrayLevel[0.97]], Cell[TextData[{">", " ", ">", " ", "Pick", " ", "the", " ", StyleBox["points", FontSlant->"Italic"], " ", "around", " ", "produced", " ", "regression", " ", "quantile."}], "Text"]}]',
         'Quote block';
 
+
+#-----------------------------------------------------------
+## 13
+#-----------------------------------------------------------
+my $mtext13 = q:to/END/;
+They said:
+
+**Select QR parameters to extract the "near constant y" points.**
+*Pick the *points* around produced regression quantile.*
+
+And more:
+
+***Experiment!!***
+END
+
+is md-interpret($mtext13),
+        'Notebook[{Cell[TextData[{"They", " ", "said:"}], "Text"], Cell[TextData[{"Select", " ", "QR", " ", "parameters", " ", "to", " ", "extract", " ", "the", " ", "\"near", " ", "constant", " ", "y\"", " ", "points."}], "Text", FontWeight->"Bold"], Cell[TextData[{"Pick", " ", "the", " ", "*points*", " ", "around", " ", "produced", " ", "regression", " ", "quantile."}], "Text", FontSlant->"Italic"], Cell[TextData[{"And", " ", "more:"}], "Text"], Cell[TextData[{"Experiment!!"}], "Text", FontWeight->"Bold", FontSlant->"Italic"]}]',
+        'Emphasize block';
+
+#-----------------------------------------------------------
+## 14
+#-----------------------------------------------------------
+
+my $mtext14 = q:to/END/;
+```math
+\mathbb{N} = \{ a \in \mathbb{Z} : a > 0 \}
+```
+
+Another one:
+
+$$
+P \left( A=2 \, \middle| \, \dfrac{A^2}{B}>4 \right)
+$$
+END
+
+my $res14 =
+        Q (Notebook[{Cell[ BoxData["ToExpression[\"\\\\mathbb{N} = \\\\{ a \\\\in \\\\mathbb{Z} : a > 0 \\\\}\", TeXForm]"], "Input"], Cell[TextData[{"Another", " ", "one:"}], "Text"], Cell[ BoxData["ToExpression[\"P \\\\left( A=2 \\\\, \\\\middle| \\\\, \\\\dfrac{A^2}{B}>4 \\\\right)\", TeXForm]"], "Input"]}]);
+
+is md-interpret($mtext14),
+        $res14,
+        'Math blocks';
+
+
+#-----------------------------------------------------------
+## 15
+#-----------------------------------------------------------
+
+my $mtext15 = q:to/END/;
+Math expression ````\frac{1+8}{x^3} = x^y + \sqrt{x}```` to consider.
+END
+
+
+my $res15 =
+        Q (Notebook[{Cell[TextData[{"Math", " ", "expression", " ", StyleBox["\\frac{1+8}{x^3} = x^y + \\sqrt{x}", FontSlant->"Italic", Background->RGBColor[1,1,0.85]], " ", "to", " ", "consider."}], "Text"]}]);
+
+is md-interpret($mtext15),
+        $res15,
+        'Math inlined expression';
+
+#-----------------------------------------------------------
+## 16
+#-----------------------------------------------------------
+
+my $mtext16 = q:to/END/;
+Math expression  $\frac{1+8}{x^3} = x^y + \sqrt{x}$ to consider.
+END
+
+is md-interpret($mtext16), md-interpret($mtext15), 'Math inlined expression, alt spec';
+
+
+#-----------------------------------------------------------
+## 17
+#-----------------------------------------------------------
+
+## Note that this test will not pass if there is no empty last line.
+my $mtext17 = q:to/END/;
+Estimated Ellipses:
+
+    components =
+      ComponentMeasurements[
+       watershedComponents, {"Centroid", "SemiAxes", "Orientation"}];
+
+    Show[stretched, Graphics[
+      {
+       Red,
+       components /.
+        {
+         (n_ -> {centroid_, semiAxes_, orientation_}) :>
+          {
+           Rotate[Circle[centroid, semiAxes], orientation, centroid],
+           Text[n, centroid]
+           }
+         }
+       }]]
+
+END
+
+is md-interpret($mtext17),
+        'Notebook[{Cell[TextData[{"Estimated", " ", "Ellipses:"}], "Text"], Cell[ BoxData["components =
+  ComponentMeasurements[
+   watershedComponents, {\"Centroid\", \"SemiAxes\", \"Orientation\"}];
+
+Show[stretched, Graphics[
+  {
+   Red,
+   components /.
+    {
+     (n_ -> {centroid_, semiAxes_, orientation_}) :>
+      {
+       Rotate[Circle[centroid, semiAxes], orientation, centroid],
+       Text[n, centroid]
+       }
+     }
+   }]]
+"], "Input"]}]',
+        'Code block with indentation and empty line in between';
+
+#-----------------------------------------------------------
+## 18
+#-----------------------------------------------------------
+
+# https://mathematica.stackexchange.com/a/151161/
+my $mtext18 = q:to/END/;
+In these cases, it is a good habit to consult the manual for excellence:
+"Table of Integrals, Series and Products [Seventh Edition] - Gradshteyn, Ryzhik"
+(1220 pages). In particular, the integral that resembles the one in question is the following:
+
+$$
+\int_0^{\infty} \frac{1-\cos(a\,x)}{e^{2 \pi x}-1}\,\frac{\text{d}x}{x} = \frac{a}{4} + \frac{1}{2}\,\ln\left(\frac{1-e^{-a}}{a}\right).
+$$
+
+In the light of this, the [theorem on the derivation under the integral sign][2] is applicable, it is possible to derive both members twice as much as $a$, obtaining:
+
+$$\int_0^{\infty} \frac{x\,\cos(a\,x)}{e^{2 \pi x} - 1}\,\text{d}x = \frac{1}{2\,a^2} + \frac{1}{2\left(2 - e^{-a} - e^a\right)}$$
+
+where, in both cases, $a \ne 0$ (for $a = 0$ everything is trivialized). If at this point you set $x = \sqrt{t}$ and $a = n$, you get:
+
+$$
+\int_0^{\infty} \frac{\cos(n\,\sqrt{t})}{e^{2 \pi \sqrt{t}} - 1}\,\text{d}t = \frac{1}{n^2} + \frac{1}{2 - e^{-n} - e^n}.
+$$
+END
+
+my $res18 = Q (Notebook[{Cell[TextData[{"In", " ", "these", " ", "cases,", " ", "it", " ", "is", " ", "a", " ", "good", " ", "habit", " ", "to", " ", "consult", " ", "the", " ", "manual", " ", "for", " ", "excellence:", " ", "\"Table", " ", "of", " ", "Integrals,", " ", "Series", " ", "and", " ", "Products", " ", "[Seventh", " ", "Edition]", " ", "-", " ", "Gradshteyn,", " ", "Ryzhik\"", " ", "(1220", " ", "pages).", " ", "In", " ", "particular,", " ", "the", " ", "integral", " ", "that", " ", "resembles", " ", "the", " ", "one", " ", "in", " ", "question", " ", "is", " ", "the", " ", "following:"}], "Text"], Cell[ BoxData["ToExpression[\"\\\\int_0^{\\\\infty} \\\\frac{1-\\\\cos(a\\\\,x)}{e^{2 \\\\pi x}-1}\\\\,\\\\frac{\\\\text{d}x}{x} = \\\\frac{a}{4} + \\\\frac{1}{2}\\\\,\\\\ln\\\\left(\\\\frac{1-e^{-a}}{a}\\\\right).\", TeXForm]"], "Input"], Cell[TextData[{"In", " ", "the", " ", "light", " ", "of", " ", "this,", " ", "the", " ", ButtonBox["theorem on the derivation under the integral sign", BaseStyle -> "Hyperlink", ButtonData -> { Label[2], None}], " ", "is", " ", "applicable,", " ", "it", " ", "is", " ", "possible", " ", "to", " ", "derive", " ", "both", " ", "members", " ", "twice", " ", "as", " ", "much", " ", "as", " ", StyleBox["a", FontSlant->"Italic", Background->RGBColor[1,1,0.85]], " ", ",", " ", "obtaining:"}], "Text"], Cell[ BoxData["ToExpression[\"\\\\int_0^{\\\\infty} \\\\frac{x\\\\,\\\\cos(a\\\\,x)}{e^{2 \\\\pi x} - 1}\\\\,\\\\text{d}x = \\\\frac{1}{2\\\\,a^2} + \\\\frac{1}{2\\\\left(2 - e^{-a} - e^a\\\\right)}\", TeXForm]"], "Input"], Cell[TextData[{"where,", " ", "in", " ", "both", " ", "cases,", " ", StyleBox["a \\ne 0", FontSlant->"Italic", Background->RGBColor[1,1,0.85]], " ", "(for", " ", StyleBox["a = 0", FontSlant->"Italic", Background->RGBColor[1,1,0.85]], " ", "everything", " ", "is", " ", "trivialized).", " ", "If", " ", "at", " ", "this", " ", "point", " ", "you", " ", "set", " ", StyleBox["x = \\sqrt{t}", FontSlant->"Italic", Background->RGBColor[1,1,0.85]], " ", "and", " ", StyleBox["a = n", FontSlant->"Italic", Background->RGBColor[1,1,0.85]], " ", ",", " ", "you", " ", "get:"}], "Text"], Cell[ BoxData["ToExpression[\"\\\\int_0^{\\\\infty} \\\\frac{\\\\cos(n\\\\,\\\\sqrt{t})}{e^{2 \\\\pi \\\\sqrt{t}} - 1}\\\\,\\\\text{d}t = \\\\frac{1}{n^2} + \\\\frac{1}{2 - e^{-n} - e^n}.\", TeXForm]"], "Input"]}]);
+
+is md-interpret($mtext18).trim,
+        $res18.trim,
+        'Multiple formula specs';
 
 done-testing;
